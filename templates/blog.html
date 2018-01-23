@@ -1,0 +1,13 @@
+{% extends 'shema.html' %}
+{% block podnaslov %}Blog št. {{stevilka}}{% endblock %}
+{% block vsebina %}
+    <p>
+        <a href='/'>
+            Pojdi na domačo stran
+        </a>
+    </p> 
+
+    <p> 
+    	Nazadnje si bil na blog št. <a href = "/blog/{{prej}}"> {{prej}}</a>
+    </p>
+{% endblock %}
