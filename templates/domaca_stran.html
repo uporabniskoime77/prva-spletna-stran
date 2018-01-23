@@ -16,5 +16,14 @@
     <p>
         Tukaj je besedilo drugega odstavka. Naslednja beseda je <b>krepka</b> in naslednja <i>poševna</i>.
     </p>
+
+    <p> 
+        {% for i in range (1, 101) %}
+           <a href= "/blog/{{i}}">
+            {{i}}
+
+        {% endfor %}
+    </p>
+
 {% endblock %}
 
