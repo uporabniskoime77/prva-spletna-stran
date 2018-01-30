@@ -6,4 +6,9 @@
             Pojdi na domačo stran
         </a>
     </p>
+    <p>
+        {% for i in range(1, 101) %}
+            <a href='/blog/{{i}}'> {{ i }} </a>
+        {% endfor %}
+    </p>
 {% endblock %}
