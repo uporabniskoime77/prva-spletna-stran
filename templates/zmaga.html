@@ -1,0 +1,11 @@
+{% extends 'shema.html' %}
+{% block podnaslov %}ZMAGA{% endblock %}
+{% block vsebina %}
+    <p>
+        Bravo, uganil si besedo {{session['beseda']}}.
+        <br>
+        Stevilo napacnih ugibanj: {{session['slika']}}.
+    </p>
+    <p>
+        <a href="/vislice">Igraj novo igro</a>
+{% endblock %}

@@ -1,3 +1,6 @@
+from string import ascii_lowercase
+from random import randint
+
 from flask import Flask
 from flask import render_template
 from flask import make_response
@@ -20,14 +23,25 @@ def ugibaj(znak):
         session['ugibal'] += znak
         if znak not in session['beseda']:
             session['slika'] += 1
-    return render_template("vislice.html", session=session)
+    for crka in session['beseda']:
+        if crka not in session['ugibal']:
+            break
+    else:
+        return render_template('zmaga.html', session=session)
+
+    return render_template(
+        "vislice.html", session=session,
+        vse_crke=ascii_lowercase)
 
 @app.route("/vislice")
 def vislice():
     session['beseda'] = "endlessness"
+    with open('besede.txt') as besede:
+        for i in range(randint(1, 350747)):
+            session['beseda'] = besede.readline().strip()
     session['slika'] = 0
     session['ugibal'] = ''
-    return render_template("vislice.html", session=session)
+    return render_template("vislice.html", session=session, vse_crke=ascii_lowercase)
 
 @app.route("/blog/<int:st_blog>")
 def blog(st_blog):

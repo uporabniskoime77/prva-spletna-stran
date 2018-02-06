@@ -13,4 +13,11 @@
             {% endif %}
         {% endfor %}
     </p>
+    <p>
+        {% for crka in vse_crke %}
+            {% if crka not in session['ugibal']%}
+                <a href="/vislice/{{crka}}"><button>{{crka}}</button></a>
+            {% endif %}
+        {% endfor %}
+    </p>
 {% endblock %}
