@@ -1,7 +1,10 @@
 from flask import Flask
-from flask import render_template, make_response
+from flask import render_template
+from flask import make_response
 from flask import request
+from flask import session
 app = Flask(__name__)
+app.secret_key = "akshfdgas"
 
 @app.route("/")
 def index():
@@ -10,6 +13,21 @@ def index():
 @app.route("/druga_stran")
 def druga():
     return render_template("druga_stran.html")
+
+@app.route("/vislice/<znak>")
+def ugibaj(znak):
+    if len(znak) == 1 and znak.isalpha():
+        session['ugibal'] += znak
+        if znak not in session['beseda']:
+            session['slika'] += 1
+    return render_template("vislice.html", session=session)
+
+@app.route("/vislice")
+def vislice():
+    session['beseda'] = "endlessness"
+    session['slika'] = 0
+    session['ugibal'] = ''
+    return render_template("vislice.html", session=session)
 
 @app.route("/blog/<int:st_blog>")
 def blog(st_blog):

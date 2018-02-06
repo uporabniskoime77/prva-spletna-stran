@@ -1,0 +1,16 @@
+{% extends 'shema.html' %}
+{% block podnaslov %}Vislice{% endblock %}
+{% block vsebina %}
+    <p>
+        Tukaj bo slika #{{session['slika']}}
+    </p>
+    <p>
+        {% for znak in session['beseda'] %}
+            {% if znak in session['ugibal'] %}
+                {{znak}}
+            {% else %}
+                _
+            {% endif %}
+        {% endfor %}
+    </p>
+{% endblock %}
