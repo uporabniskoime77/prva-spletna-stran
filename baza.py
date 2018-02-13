@@ -9,6 +9,8 @@ def ustvari_tabele():
     povezava.execute("CREATE TABLE Users (id int, username varchar(100))")
     povezava.execute(
         "CREATE TABLE Scores (user_id int, napake int, beseda varchar(100))")
+    povezava.commit()
+    povezava.close()
 
 
 def dobi_najboljse():
@@ -23,8 +25,18 @@ def dobi_najboljse():
     return rezultat.fetchmany(10)
 
 
+def vstavi_novega_uporabnika(user_id, username):
+    povezava = sqlite3.connect(IME_BAZE)
+    povezava.execute(
+        "INSERT INTO Users VALUES (?, ?)", (user_id, username))
+    povezava.commit()
+    povezava.close()
+
+
 def vstavi_novo_igro(user_id, napake, beseda):
     """ Vstavi novo igro v tabelo Scores. """
     povezava = sqlite3.connect(IME_BAZE)
     povezava.execute(
         "INSERT INTO Scores VALUES (?, ?, ?)", (user_id, napake, beseda))
+    povezava.commit()
+    povezava.close()
