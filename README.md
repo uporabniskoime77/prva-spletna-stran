@@ -36,9 +36,29 @@ Ustvari novo bazo z imenom vislice
 sudo -u postgres createdb vislice
 ```
 
+> Če uporabljaš šolski USB, moraš spremeniti nastavitve v
+> ```
+> sudo subl /etc/postgresql/9.5/main/pg_hba.conf
+> ```
+> in spremeniš vrstico
+> ```
+> local   all             postgres                                     peer
+> ```
+> tako, da `peer` zamenjas z `md5`.
+> Nato se podaj v postgres z ukazom
+> ```
+> sudo -u postgres psql
+> ```
+> Kjer zaženeš ukaz
+> ```
+> ALTER USER postgres PASSWORD 'asuna'; \q
+> ```
+
+
+
 Prenesi novo datoteko s kodo za ravnanje z bazo.
 ```
-wget https://raw.githubusercontent.com/MKolman/prva-spletna-stran/heroku-test/baza.py
+wget https://raw.githubusercontent.com/MKolman/prva-spletna-stran/heroku-test/baza.py -O baza.py
 ```
 V datoteki `baza.py` nastavi geslo in ime podatkovne baze.
 
