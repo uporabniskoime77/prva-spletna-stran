@@ -2,7 +2,7 @@
 
 Najprej se prepričaj, da imaš nameščeno knjižnico Flask
 ```
-sudo pip install flask
+sudo pip3 install flask
 ```
 
 Nato kloniraj spletno stran
@@ -23,7 +23,7 @@ cd prva-spletna-stran
 Namesti bazo in orodje za gledanje baze
 ```
 sudo apt-get install postgresql pgadmin3
-sudo pip install psycopg2-binary
+sudo pip3 install psycopg2-binary
 ```
 
 Nastavi geslo za uporabnika baze
