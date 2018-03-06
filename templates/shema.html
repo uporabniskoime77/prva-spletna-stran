@@ -35,6 +35,14 @@
         <a href="/vislice">Vislice</a>
         <a href="/lestvica">Lestvica</a>
         <a href="/druga_stran">Blog</a>
+        <span style="float: right">
+            {% if session['user'] == None %}
+                <a href="/druga_stran">Prijavi se!</a>
+            {% else %}
+                {{ session['user'][0] }}
+                <a href="/logout">Odjavi se!</a>
+            {% endif %}
+        </span>
     </p>
     <h2>
         {% block podnaslov %}

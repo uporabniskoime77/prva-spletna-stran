@@ -3,14 +3,38 @@ import sqlite3
 IME_BAZE = 'podatki.sqlite'
 
 
+def zakodiraj_geslo(password):
+    """ Zakodira geslo in ga vrne """
+    import hashlib, binascii
+    dk = hashlib.pbkdf2_hmac('sha256', password.encode(), b'salt', 100000)
+    return binascii.hexlify(dk).decode()
+
+
 def ustvari_tabele():
     """ Naredi dve tabeli: Users in Scores. """
     povezava = sqlite3.connect(IME_BAZE)
-    povezava.execute("CREATE TABLE Users (id int, username varchar(100))")
+    povezava.execute("DROP TABLE IF EXISTS Users")
+    povezava.execute("DROP TABLE IF EXISTS Scores")
+    povezava.execute("""CREATE TABLE Users (
+                            username varchar(100),
+                            password varchar(100))""")
     povezava.execute(
         "CREATE TABLE Scores (user_id int, napake int, beseda varchar(100))")
     povezava.commit()
     povezava.close()
+
+
+def dobi_uporabnika(user_id=None, username=None, password=None):
+    povezava = sqlite3.connect(IME_BAZE)
+    if user_id is not None:
+        rezultat = povezava.execute(
+            "SELECT * FROM Users WHERE rowid=?", (user_id,))
+    else:
+        rezultat = povezava.execute(
+            "SELECT * FROM Users WHERE username=? AND password=?",
+            (username, zakodiraj_geslo(password)))
+
+    return rezultat.fetchone()
 
 
 def dobi_najboljse():
@@ -19,16 +43,17 @@ def dobi_najboljse():
     rezultat = povezava.execute("""
         SELECT Users.username, Scores.napake, Scores.beseda
         FROM Scores
-        JOIN Users ON Scores.user_id=Users.id
+        JOIN Users ON Scores.user_id=Users.rowid
         ORDER BY Scores.napake
         """)
     return rezultat.fetchmany(10)
 
 
-def vstavi_novega_uporabnika(user_id, username):
+def vstavi_novega_uporabnika(username, password):
     povezava = sqlite3.connect(IME_BAZE)
     povezava.execute(
-        "INSERT INTO Users VALUES (?, ?)", (user_id, username))
+        "INSERT INTO Users (username, password) VALUES (?, ?)",
+        (username, zakodiraj_geslo(password)))
     povezava.commit()
     povezava.close()
 

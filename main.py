@@ -6,6 +6,7 @@ from flask import render_template
 from flask import make_response
 from flask import request
 from flask import session
+from flask import redirect
 
 import baza
 
@@ -17,8 +18,18 @@ ascii_crke = ascii_lowercase + "čžš"
 def index():
     return render_template("domaca_stran.html")
 
-@app.route("/druga_stran")
+@app.route("/logout")
+def logout():
+    session['user'] = None
+    return redirect('/')
+
+@app.route("/druga_stran", methods=['GET', 'POST'])
 def druga():
+    if request.method == 'POST':
+        session['user'] = baza.dobi_uporabnika(
+            username=request.form['username'],
+            password=request.form['password'])
+
     return render_template("druga_stran.html")
 
 @app.route("/vislice/<znak>")
