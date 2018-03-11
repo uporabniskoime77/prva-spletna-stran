@@ -23,6 +23,42 @@ def logout():
     session['user'] = None
     return redirect('/')
 
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if session.get('user') is not None:
+        return redirect('/')
+    if request.method == 'GET':
+        return render_template("login.html")
+    elif request.method == 'POST':
+        session['user'] = baza.dobi_uporabnika(
+            username=request.form['username'],
+            password=request.form['password'])
+        if session['user'] is None:
+            return render_template("login.html", error="Napačni podatki")
+        else:
+            return redirect('/')
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if session.get('user') is not None:
+        return redirect('/')
+    if request.method == 'GET':
+        return render_template("register.html")
+    elif request.method == 'POST':
+        if len(request.form['username']) < 3:
+            return render_template("register.html", error="Prekratko ime")
+        if baza.dobi_uporabnika(username=request.form['username']):
+            return render_template("register.html", error="Uporabnik že obstaja")
+        if len(request.form['password']) < 3:
+            return render_template("register.html", error="Prekratko geslo")
+        if request.form['password'] != request.form['password2']:
+            return render_template("register.html", error="Gesli se ne ujemata")
+        user_id = baza.vstavi_novega_uporabnika(
+            username=request.form['username'],
+            password=request.form['password'])
+        session['user'] = baza.dobi_uporabnika(user_id)
+        return redirect('/')
+
 @app.route("/druga_stran", methods=['GET', 'POST'])
 def druga():
     if request.method == 'POST':
@@ -42,12 +78,11 @@ def ugibaj(znak):
         if crka not in session['ugibal']:
             break
     else:
-        baza.vstavi_novo_igro(1, session['slika'], session['beseda'])
-        return render_template('zmaga.html', session=session)
+        if session.get('user') is not None:
+            baza.vstavi_novo_igro(session['user'][0], session['slika'], session['beseda'])
+        return render_template('zmaga.html')
 
-    return render_template(
-        "vislice.html", session=session,
-        vse_crke=ascii_crke)
+    return render_template("vislice.html", vse_crke=ascii_crke)
 
 @app.route("/vislice")
 def vislice():
@@ -57,7 +92,7 @@ def vislice():
             session['beseda'] = besede.readline().strip()
     session['slika'] = 0
     session['ugibal'] = ''
-    return render_template("vislice.html", session=session, vse_crke=ascii_crke)
+    return render_template("vislice.html", vse_crke=ascii_crke)
 
 @app.route("/blog/<int:st_blog>")
 def blog(st_blog):

@@ -2,13 +2,6 @@
 {% block podnaslov %}Druga stran{% endblock %}
 {% block vsebina %}
     <p>
-        <form method="POST">
-            <input type="text" name="username">
-            <input type="password" name="password">
-            <input type="submit">
-        </form>
-    </p>
-    <p>
         {% for i in range(1, 101) %}
             <a href='/blog/{{i}}'> <button>{{ i }} </button></a>
         {% endfor %}
