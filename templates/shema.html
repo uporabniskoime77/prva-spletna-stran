@@ -48,10 +48,21 @@
         {% block podnaslov %}
         {% endblock %}
     </h2>
+    {% if error %}
+        <p class='error'>
+            {{ error }}
+        </p>
+    {% endif %}
     <div>
         {% block vsebina %}
         {% endblock %}
     </div>
+    {% if error %}
+        <p class='error'>
+            {{ error }}
+        </p>
+    {% endif %}
+
 </div>
 </body>
 </html>
