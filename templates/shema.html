@@ -2,18 +2,11 @@
 <head>
     <title>Moja testna stran</title>
     <style>
-        h1 {
-            color: red;
-            border: solid yellow;
-            border-radius: 10px;
-        }
-        h2 {
-            color: green;
-            border: dashed;
+        h1, h2 {
+            color: #2680d1;
         }
         body {
-            color: blue;
-            background-color: white;
+            /*background-color: white;*/
         }
         #stran {
             width: 800px;
@@ -21,8 +14,36 @@
             background-color: #eee;
             padding: 10px;
         }
+        #navigation {
+            /*border-color: #2680d1;*/
+            border-style: solid none solid none;
+            /*border-width: 1px;*/
+            padding-top: 0.5em;
+            padding-bottom: 0.5em;
+        }
+        #navigation a {
+            text-decoration: none;
+            color: black;
+            padding-right: 1em;
+            /*font-size: larger;*/
+            /*background-color: #2680d1;*/
+        }
+        #navigation a:hover {
+            color: #2680d1;
+        }
+        table, td, th {
+            border: 1px solid grey;
+            border-collapse: collapse;
+        }
         p {text-align: center;}
         .center {text-align: center;}
+        p.error {
+            color: red;
+            background-color: #f3babd;
+            padding: 0.2em;
+            border-radius: 10px;
+            border: red 1px solid;
+        }
     </style>
 </head>
 <body>
@@ -30,17 +51,17 @@
     <h1>
         Moja testna stran
     </h1>
-    <p>
+    <p id="navigation">
         <a href="/">Domov</a>
         <a href="/vislice">Vislice</a>
         <a href="/lestvica">Lestvica</a>
         <a href="/druga_stran">Blog</a>
         <span style="float: right">
-            {% if session['user'] == None %}
-                <a href="/druga_stran">Prijavi se!</a>
+            {% if not session['user'] %}
+                <a href="/login">Prijava</a>
             {% else %}
-                {{ session['user'][0] }}
-                <a href="/logout">Odjavi se!</a>
+                {{ session['user'][1] }}
+                <a href="/logout">Odjava</a>
             {% endif %}
         </span>
     </p>
