@@ -2,7 +2,8 @@
 {% block podnaslov %}Vislice{% endblock %}
 {% block vsebina %}
     <p>
-        Tukaj bo slika #{{session['slika']}}
+        Tukaj bo slika #{{session['slika']}}<br>
+        <img src='/static/img/hangman{{session['slika']}}.png'>
     </p>
     <p>
         {% for znak in session['beseda'] %}
