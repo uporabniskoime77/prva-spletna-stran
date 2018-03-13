@@ -58,7 +58,7 @@ sudo -u postgres createdb vislice
 
 Prenesi novo datoteko s kodo za ravnanje z bazo.
 ```
-wget https://raw.githubusercontent.com/MKolman/prva-spletna-stran/heroku-test/baza.py -O baza.py
+wget https://raw.githubusercontent.com/MKolman/prva-spletna-stran/master/baza.py -O baza.py
 ```
 V datoteki `baza.py` nastavi geslo in ime podatkovne baze tako da spremeniš
 spremenljivko `DATABASE_URL`.
